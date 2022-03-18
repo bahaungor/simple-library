@@ -1,3 +1,7 @@
+body{
+    @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+    font-family: 'Roboto', sans-serif;
+}
 :root{
     --white: #fff;
     --lightgray: #f0eef1;
@@ -6,6 +10,7 @@
     --blue: #4285F4;
     --shadow: 0px 2px 2px lightgray;
     --gray: rgb(94, 94, 94);
+    --font: 'Roboto', sans-serif;
 }
 /*CSS RESET*/
 *,
@@ -16,10 +21,7 @@
     margin: 0;
 }
 
-body{
-    @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
-    font-family: 'Roboto', sans-serif;
-}
+
 
 .header{
     padding: 15px 50px;
@@ -127,14 +129,13 @@ body{
 
 .book-form-container{
     background-color: var(--lightgray);
-    padding: 25px 25px;
+    padding: 15px 15px;
     z-index: 3;
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%,-50%);
     justify-items: center;
-    font-size: 1.3rem;
     border-radius: 10px;
     white-space: nowrap;
     display: none; /*display: none*/
@@ -153,18 +154,19 @@ body{
 
 .book-form-container label{
     font-weight: normal;
-    font-size: 1.2rem;
 }
 
 
 
 .book-form input[type="text"],
-.book-form input[type="number"]{
-    font-size: 1rem;
+.book-form input[type="number"],
+.form-book-context-input{
     border-radius: 7px;
     border: none;
     outline: none;
-    margin-top: 25px;
+    resize: none;
+    margin-top: 10px;
+    font-family: var(--font);
 }
 
 .book-form input[type="checkbox"]{
@@ -178,20 +180,17 @@ body{
     display: flex;
     gap: 10px;
     align-items: center;
-    margin-top: -5px;
 }
 
 .book-form .button-container{
     display: flex;
     justify-content: center;
-    margin-bottom: -5px;
 }
 
-.book-form-submit-btn{
+.form-book-submit-btn{
     padding: 15px 25px;
     cursor: pointer;
     border: none;
     background-color: var(--green);
     border-radius: 7px;
-    font-size: 1.1rem;
 }

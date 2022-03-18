@@ -31,7 +31,7 @@
                     <div class="book-author">JRR Tolkien</div>
                     <div class="book-pages">343</div>
                     <div class="read">Read</div>
-                    <button type="button" class="book-remove-button">Remove</button>
+                    <button type="button" class="book-remove-button" data-index=0>Remove</button>
                 </div>
                 <div class="book" data-index=1>
                     <div class="book-title">Lord of The Rings</div>
@@ -39,7 +39,7 @@
                     <div class="book-author">JRR Tolkien</div>
                     <div class="book-pages">343</div>
                     <div class="read">Read</div>
-                    <button type="button" class="book-remove-button">Remove</button>
+                    <button type="button" class="book-remove-button" data-index=1>Remove</button>
                 </div>
             </div>
         </main>
@@ -49,11 +49,12 @@
             <div><h4>Add New Book</h4></div>
             <form class="book-form" action="" method="post">
                     <input class="form-book-title-input" type="text" minlength="2" maxlength="30" name="book-title" id="book-title" placeholder="Title" required autocomplete="off">
-                    <input class="form-book-title-input" type="text" minlength="2" maxlength="30" name="author" id="author" placeholder="Author" required autocomplete="off">
-                    <input class="form-book-title-input" type="number" name="pages" id="pages" min="1" max="15000" placeholder="Pages" required>
+                    <textarea class="form-book-context-input" name="book-context" id="book-context" cols="30" rows="4" placeholder="Context"></textarea>
+                    <input class="form-book-author-input" type="text" minlength="2" maxlength="30" name="author" id="author" placeholder="Author" required autocomplete="off">
+                    <input class="form-book-pages-input" type="number" name="pages" id="pages" min="1" max="15000" placeholder="Pages" required>
                     <div class="read-it-yet">
                         <label for="read" class="read-label">Have you read it?</label>
-                        <input class="form-checkbox" type="checkbox" name="read" id="read">
+                        <input class="form-book-read-checkbox" type="checkbox" name="read" id="read">
                     </div>
                     <button class="form-book-submit-btn" type="submit">Add Book</button> 
             </form>
