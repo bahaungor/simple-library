@@ -68,7 +68,7 @@ body{
 /*LIBRARY STARTS HERE*/
 .library{
     display: grid;
-    gap: 2px;
+    gap: 5px;
 }
 .title{
     background-color: var(--gray);
@@ -99,6 +99,7 @@ body{
     padding: 5px;
     gap: 5px;
     align-items: center;
+    cursor: pointer;
 }
 
 .book div:nth-child(4),
