@@ -99,7 +99,8 @@ header{
 }
 
 .formContainer{
-    background-color: red;
+    padding: 20px;
+    background-color: var(--lightgray);
     border: 1px solid black;
     z-index: 3;
     position: absolute;
@@ -107,4 +108,16 @@ header{
     left: 50%;
     transform: translate(-50%,-50%);
     display: grid; /*display: none*/
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.formTitle{
+    text-align: center;
+}
+
+.formContainer input[type="text"],
+.formContainer input[type="date"]{
+    border: none;
 }
