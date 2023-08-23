@@ -77,8 +77,13 @@ header{
     font-weight: 700;
 }
 
-.bookCard > .removeBook{
-    background-color: var(--red);
+.bookCard .row{
+    display: flex;
+    margin: 0 auto;
+    gap: 20px;
+}
+
+.bookCard .row > *{
     align-self: center;
     padding: 5px 15px;
     border-radius: 7px;
@@ -87,6 +92,15 @@ header{
     font-size: 1.1rem;
     color: white;
     margin-top: auto;
+}
+
+.bookCard .removeBook{
+    background-color: var(--red);
+}
+
+
+.bookCard .editBook{
+    background-color: var(--navy);
 }
 
 .overlay{
