@@ -1,135 +1,116 @@
-const booksArray = JSON.parse(localStorage.getItem("books")) || [];
+const addBookBtn = document.querySelector(".addBook");
+const overlay = document.querySelector(".overlay");
+const addBookForm = document.querySelector(".formContainer");
+const cancelBtn = document.querySelector(".button.cancel");
+const bookTitle = document.querySelector(".formContainer input#title")
+const bookAuthor = document.querySelector(".formContainer input#author")
+const bookPage = document.querySelector(".formContainer input#page")
+const bookRead = document.querySelector(".formContainer input#read")
+const content = document.querySelector(".content")
 
-const addNewBookBtn = document.querySelector(".add-new-book");
-const main = document.querySelector(".main");
-const bookGridsContainer = document.querySelector(".library");
-let bookRemoveButtons;
-let bookGrids;
+overlay.addEventListener("click", closeBookForm)
+cancelBtn.addEventListener("click", closeBookForm)
+addBookBtn.addEventListener("click", openBookForm);
+addBookForm.addEventListener("submit", addBook)
 
-const bookFormOverlay = document.querySelector(".book-form-overlay");
-const bookFormContainer = document.querySelector(".book-form-container");
-const bookform = document.querySelector(".book-form");
-const bookFormTitle = document.querySelector(".form-book-title-input");
-const bookFormContext = document.querySelector(".form-book-context-input");
-const bookFormAuthor = document.querySelector(".form-book-author-input");
-const bookFormPages = document.querySelector(".form-book-pages-input");
-const bookFormRead = document.querySelector(".form-book-read-checkbox");
-const bookFormAddButton = document.querySelector(".form-book-submit-btn");
-let openExistingForm = false;
-let openedBook;
+const books = JSON.parse(localStorage.getItem("localItems")) || []
+refreshcontent()
+let clickedBook;
 
-createBookGrid();
-
-addNewBookBtn.addEventListener("click", openBookForm);
-function openBookForm(){
-    bookFormOverlay.classList.add("active");
-    bookFormContainer.classList.add("active");
-}
-bookFormOverlay.addEventListener("click", closeBookForm);
-function closeBookForm(e){
-    bookFormOverlay.classList.remove("active");
-    bookFormContainer.classList.remove("active");
-    openExistingForm = false;
-    bookform.reset();
-}
-
-
-function removeBook(e){
-    console.log("remove book function called")
-    e.stopPropagation();
-    const deleteConfirm = confirm("Are you sure you want to remove this book?");
-    if(deleteConfirm) {
-        booksArray.splice(this.dataset.index,1);
-    } else return;
-    localStorage.setItem("books", JSON.stringify(booksArray));
-    createBookGrid();
-}
-
-function createBook(title, context, author, pages, read){
+function Book(title, author, pages, read){
     this.title = title;
-    this.context = context;
     this.author = author;
     this.pages = pages;
     this.read = read;
 }
 
-function createBookGrid(){
-    bookGridsContainer.innerHTML = "";
-    let i = 0;
-    booksArray.forEach(book => {
-        const bookGrid = document.createElement("div");
-        bookGrid.classList.add("book");
-        bookGrid.dataset.index = i;
-        const bookTitle = document.createElement("div");
-        bookTitle.classList.add("book-title");
-        bookTitle.textContent = booksArray[i].title;
-        const bookContext = document.createElement("div");
-        bookContext.classList.add("book-context");
-        bookContext.textContent = booksArray[i].context;
-        const bookAuthor = document.createElement("div");
-        bookAuthor.classList.add("book-author");
-        bookAuthor.textContent = booksArray[i].author;
-        const bookPages = document.createElement("div");
-        bookPages.classList.add("book-pages");
-        bookPages.textContent = booksArray[i].pages;
-        const bookRead = document.createElement("div");
-        bookRead.classList.add("read");
-        if(booksArray[i].read == true){
-            bookRead.textContent = "Read";
-        } else {
-            bookRead.textContent = "Not Read";
-        }
-        const bookRemoveButton = document.createElement("button");
-        bookRemoveButton.classList.add("book-remove-button");
-        bookRemoveButton.setAttribute("type", "button");
-        bookRemoveButton.textContent = "Remove";
-        bookRemoveButton.dataset.index = i;
-        bookGridsContainer.appendChild(bookGrid)
-        bookGrid.append(bookTitle, bookContext, bookAuthor, bookPages, bookRead, bookRemoveButton);
-        i++;
-    });
-    bookRemoveButtons = document.querySelectorAll(".book-remove-button");
-    bookRemoveButtons.forEach(button => button.addEventListener("click", removeBook));
-    bookGrids = document.querySelectorAll(".book");
-    bookGrids.forEach(bookGrid => bookGrid.addEventListener("click", openGridItem));
-}
-
-bookform.addEventListener("submit", addBook)
-function addBook(e){
-    e.preventDefault();
-    if(openExistingForm){
-        booksArray[openedBook].title = bookFormTitle.value;
-        booksArray[openedBook].context = bookFormContext.value;
-        booksArray[openedBook].author = bookFormAuthor.value;
-        booksArray[openedBook].pages = bookFormPages.value;
-        booksArray[openedBook].read = bookFormRead.checked;
-        localStorage.setItem("books", JSON.stringify(booksArray));
-    } else {
-        const newBook = new createBook(
-            bookFormTitle.value, 
-            bookFormContext.value, 
-            bookFormAuthor.value,
-            bookFormPages.value,
-            bookFormRead.checked);
-        console.log("new book added");
-        booksArray.push(newBook);
-        localStorage.setItem("books", JSON.stringify(booksArray));
+function openBookForm(e){
+    overlay.style.display = "block"
+    addBookForm.style.display = "flex"
+    clickedBook = e.target.parentNode.parentNode.dataset.id
+    if (clickedBook !== undefined){
+        bookTitle.value = books[clickedBook]["title"]
+        bookAuthor.value = books[clickedBook]["author"]
+        bookPage.value = books[clickedBook]["pages"]
+        bookRead.checked = books[clickedBook]["read"]
     }
-    closeBookForm();
-    createBookGrid();
 }
 
-function openGridItem(e){
-    openExistingForm = true;
-    openBookForm();
-    openedBook = this.dataset.index;
-    fillBookForm(this.dataset.index);
+function closeBookForm(){
+    overlay.style.display = "none"
+    addBookForm.style.display = "none"
+    addBookForm.reset()
+    clickedBook = undefined
+    refreshcontent()
 }
 
-function fillBookForm(index){
-    bookFormTitle.value = booksArray[index].title;
-    bookFormContext.value = booksArray[index].context;
-    bookFormAuthor.value = booksArray[index].author;
-    bookFormPages.value = booksArray[index].pages;
-    bookFormRead.checked = booksArray[index].read;
+function addBook(e){
+    e.preventDefault()
+    if (clickedBook !== undefined) {
+        books[clickedBook]["author"] = bookTitle.value
+        books[clickedBook]["author"] = bookAuthor.value
+        books[clickedBook]["pages"] = bookPage.value
+        books[clickedBook]["read"] = bookRead.checked
+        localStorage.setItem("localItems", JSON.stringify(books));
+        closeBookForm()
+    } else {
+        const newBook = new Book(bookTitle.value, bookAuthor.value, bookPage.value, bookRead.checked)
+        const bookExist = books.find(book => book.title === newBook.title && book.author === newBook.author);
+        if(bookExist){
+            alert("Book already exist!")
+        } else {
+            books.push(newBook)
+            localStorage.setItem("localItems", JSON.stringify(books));
+            closeBookForm()
+        }
+    }
+}
+
+function refreshcontent(){
+    content.innerHTML = "";
+    for (let book in books){
+        const newBookCard = document.createElement("div")
+        newBookCard.classList.add('bookCard')
+        newBookCard.setAttribute("data-id", book)
+        content.appendChild(newBookCard)
+
+        const fields = ['title', 'author', 'pages']
+        fields.forEach(field => {
+            const newField = document.createElement("div");
+            newField.classList.add(field);
+            newField.textContent = books[book][field];
+            newBookCard.appendChild(newField);
+        });
+         
+        const newReadOrNot = document.createElement("div")
+        newReadOrNot.classList.add('readOrNot')
+        newReadOrNot.textContent = books[book]["read"] ? "Read" : "Not Read";
+        newBookCard.appendChild(newReadOrNot)
+
+        const newRow = document.createElement("div");
+        newRow.classList.add('row')
+        newBookCard.appendChild(newRow)
+
+        const newRemoveBook = document.createElement("div")
+        newRemoveBook.classList.add('removeBook')
+        newRemoveBook.textContent = "Remove"
+        newRemoveBook.addEventListener("click", removeBook)
+        newRow.appendChild(newRemoveBook)
+
+        const newEditBook = document.createElement("div")
+        newEditBook.classList.add('editBook')
+        newEditBook.textContent = "Edit"
+        newEditBook.addEventListener("click", openBookForm)
+        newRow.appendChild(newEditBook)
+    }
+}
+
+function removeBook(e){
+    clickedBook = e.target.parentNode.parentNode.dataset.id
+    const answer = confirm("Are you sure you want to remove this book?")
+    if (answer === true){
+        books.splice(clickedBook, 1)
+        localStorage.setItem("localItems", JSON.stringify(books));
+        refreshcontent()
+    }
 }
