@@ -27,7 +27,7 @@
                 <div class="removeBook">Remove</div>
             </div>
             <div class="bookCard read">
-                <div class="title">Lord Of The Rings</div>
+                <div class="title">Harry Potter and the Deathly Hallows</div>
                 <div class="Author">JR Tolkien</div>
                 <div class="pages">1231</div>
                 <div class="readOrNot">Read</div>
@@ -40,9 +40,16 @@
     <div class="overlay"></div>
     <form action="" class="formContainer">
         <div class="formTitle">Add New Book</div>
+        <input type="text" name="title" id="title" placeholder="Title Of The Book" required>
+        <input type="text" name="author" id="author" placeholder="Author Of The Book" required>
+        <input type="number" name="page" id="page" placeholder="Number Of Pages" required>
         <div class="row">
-            <label for="title">Title:</label>
-            <input type="text" name="title" id="title">
+            <label for="read">Have you read it?</label>
+            <input type="checkbox" name="read" id="read">
+        </div>
+        <div class="row">
+            <button type="submit" class="button submit">Submit</button>
+            <button class="button cancel">Cancel</button>
         </div>
     </form>
 </body>
